@@ -133,15 +133,20 @@ def get_hexagon_points(hexagon_size, row, col):
 
 
 def hexagons(file):
-    cv2.namedWindow('hexagons', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('hexagons', 750, 1000)
-    cv2.namedWindow('tmp', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('tmp', 750, 1000)
-
     img = cv2.imread(file)
-    cv2.imshow('hexagons', img)
     [height, width, _] = np.shape(img)
-    estimated_num_width_steps = 200
+
+    height_scaled = 750
+    width_scaled = int(height_scaled / height * width)
+
+    cv2.namedWindow('hexagons', cv2.WINDOW_NORMAL)
+    cv2.resizeWindow('hexagons', width_scaled, height_scaled)
+    cv2.namedWindow('tmp', cv2.WINDOW_NORMAL)
+    cv2.resizeWindow('tmp', width_scaled, height_scaled)
+
+    cv2.imshow('hexagons', img)
+
+    estimated_num_width_steps = 60
     hexagon_size = math.ceil(width / estimated_num_width_steps)
     num_width_steps = math.ceil(width / hexagon_size)
     height_step_length = hexagon_size / 2 * math.sqrt(3)
@@ -160,7 +165,7 @@ def hexagons(file):
             cv2.bitwise_or(acc, mask, acc)
             cv2.imshow('tmp', mask)
             cv2.waitKey(1)
-    cv2.imwrite('hexagons_high_res.jpg', acc)
+    cv2.imwrite('Outputs/niagara_falls_hex(10).jpg', acc)
     cv2.imshow('tmp', acc)
     cv2.waitKey(0)
 
@@ -330,9 +335,10 @@ def hexagons(file):
     # cv2.imshow('test', img2)
     # cv2.waitKey(0)
 
+
 def main():
     random.seed(time.time())
-    hexagons('C:\\Users\\andre\\OneDrive\\Desktop\\shinso-ji_temple.jpg')
+    hexagons('Inputs/niagara_falls.jpg')
 
 
 if __name__ == '__main__':
